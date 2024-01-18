@@ -1,17 +1,16 @@
 <script setup lang="ts">
-
 import { onMounted, ref } from "vue";
 import { collection, getDocs, doc, deleteDoc } from '@firebase/firestore';
 import { db } from "./firebase.js";
-
-type Post = {
-  id: string,
-  title: string,
-  content: string,
-}
+import { Post } from "../types/Post.ts";
+import SinglePost from "./SinglePost.vue";
 
 const posts = ref<Post[]>([]);
 const isLoaded = ref(false);
+
+onMounted(async () => {
+  await loadPosts();
+});
 
 const loadPosts = async () => {
   const postCollection = collection(db, 'posts');
@@ -24,10 +23,6 @@ const loadPosts = async () => {
 
   isLoaded.value = true;
 };
-
-onMounted(async () => {
-  await loadPosts();
-});
 
 const deletePost = async (id: string) => {
   const postRef = doc(db, 'posts', id);
@@ -51,15 +46,9 @@ const deletePost = async (id: string) => {
   <div v-else>
     <div class="row">
       <div v-for="(post, index) in posts" :key="index" class="col-md-4 mb-3">
-        <div class="card">
-          <div class="card-body">
-            <h5 class="card-title">{{ post.title }}</h5>
-            <p class="card-text">{{ post.content }}</p>
-            <button @click="deletePost(post.id)" class="btn btn-danger">
-              Usuń
-            </button>
-          </div>
-        </div>
+        <SinglePost
+            :post="post"
+            @post-deleted="async (id: string) => await deletePost(id)" />
       </div>
     </div>
   </div>
