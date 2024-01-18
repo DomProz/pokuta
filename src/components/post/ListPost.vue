@@ -1,8 +1,8 @@
 <script setup lang="ts">
 import { onMounted, ref } from "vue";
 import { collection, getDocs, doc, deleteDoc } from '@firebase/firestore';
-import { db } from "./firebase.js";
-import { Post } from "../types/Post.ts";
+import { db } from "../../firebase.js";
+import { Post } from "../../types/Post";
 import SinglePost from "./SinglePost.vue";
 
 const posts = ref<Post[]>([]);

@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { ref } from "vue";
-import { db } from "./firebase.js";
+import { db } from "../../firebase.js";
 import { collection, addDoc } from '@firebase/firestore';
 import { useRouter } from "vue-router";
 

@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { Post } from "../types/Post.ts";
+import { Post } from "../../types/Post";
 
 defineProps<{ post: Post }>();
 const emit = defineEmits<{ (e: 'postDeleted', id: string): void }>()

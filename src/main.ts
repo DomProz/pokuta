@@ -3,8 +3,8 @@ import "./style.css";
 import App from "./App.vue";
 import "bootstrap/dist/css/bootstrap.css";
 import Home from "./components/Home.vue";
-import CreatePost from "./components/CreatePost.vue";
-import ListPost from "./components/ListPost.vue";
+import CreatePost from "./components/post/CreatePost.vue";
+import ListPost from "./components/post/ListPost.vue";
 import * as VueRouter from 'vue-router'
 
 const routes = [
