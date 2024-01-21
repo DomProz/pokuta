@@ -4,7 +4,11 @@ import { RegisterUserForm } from "../../types/RegisterUserForm.ts";
 import { createUserWithEmailAndPassword } from "firebase/auth";
 import { auth } from '../../firebase';
 import { useRouter } from "vue-router";
+import { useStore } from "vuex";
+import { User } from "../../types/User.ts";
 
+
+const store = useStore();
 const router = useRouter();
 
 const registerUserForm = ref<RegisterUserForm>({
@@ -26,7 +30,14 @@ const registerUser = async (e: Event) => {
   createUserWithEmailAndPassword(auth, registerUserForm.value.email, registerUserForm.value.password)
       .then(async (_) => {
         passwordSpan.value!.innerText = '';
-        await router.push('/user/login');
+
+        const user: User = {
+          email: auth.currentUser?.email,
+          uid: auth.currentUser?.uid,
+        }
+
+        await store.dispatch('login', { user });
+        await router.push('/');
       })
       .catch((error) => {
         const errorMessage = error.message;
