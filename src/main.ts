@@ -6,11 +6,16 @@ import Home from "./components/Home.vue";
 import CreatePost from "./components/post/CreatePost.vue";
 import ListPost from "./components/post/ListPost.vue";
 import * as VueRouter from 'vue-router'
+import RegisterUser from "./components/user/RegisterUser.vue";
+import store from './store.ts'
+import LoginUser from "./components/user/LoginUser.vue";
 
 const routes = [
   { path: "/", component: Home },
   { path: "/post/create", component: CreatePost },
   { path: "/post/list", component: ListPost },
+  { path: "/user/register", component: RegisterUser },
+  { path: "/user/login", component: LoginUser },
 ];
 
 const router = VueRouter.createRouter({
@@ -18,4 +23,4 @@ const router = VueRouter.createRouter({
   routes,
 })
 
-createApp(App).use(router).mount("#app");
+createApp(App).use(router).use(store).mount("#app");

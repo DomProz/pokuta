@@ -1,4 +1,7 @@
 <script setup lang="ts">
+import { useStore } from 'vuex';
+
+const store = useStore();
 </script>
 
 <template>
@@ -18,6 +21,22 @@
           </li>
           <li class="nav-item">
             <router-link to="/post/list" class="nav-link">Posts List</router-link>
+          </li>
+        </ul>
+        <ul v-if="store.state.isAuthenticated" class="navbar-nav">
+          <li class="nav-item">
+            <router-link class="nav-link mx-2 text-uppercase" to="/user/info">{{ store.state.user.email }}</router-link>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link mx-2 text-uppercase" @click="store.dispatch('logout')">Logout</a>
+          </li>
+        </ul>
+        <ul v-else class="navbar-nav">
+          <li class="nav-item">
+            <router-link to="/user/login" class="nav-link">Login</router-link>
+          </li>
+          <li class="nav-item">
+            <router-link to="/user/register" class="nav-link">Register</router-link>
           </li>
         </ul>
       </div>
