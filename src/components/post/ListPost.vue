@@ -4,6 +4,7 @@ import { collection, getDocs, doc, deleteDoc } from '@firebase/firestore';
 import { db } from "../../firebase.js";
 import { Post } from "../../types/Post";
 import SinglePost from "./SinglePost.vue";
+import { auth } from '../../firebase';
 
 const posts = ref<Post[]>([]);
 const isLoaded = ref(false);
@@ -28,6 +29,7 @@ const deletePost = async (id: string) => {
   const postRef = doc(db, 'posts', id);
 
   try {
+    console.log(auth.currentUser?.uid);
     await deleteDoc(postRef);
     console.log("Document successfully deleted!")
     await loadPosts();

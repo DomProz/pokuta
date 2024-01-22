@@ -1,7 +1,14 @@
 <script setup lang="ts">
 import { useStore } from 'vuex';
+import { useRouter } from "vue-router";
 
+const router = useRouter();
 const store = useStore();
+
+const logout = async () => {
+  await store.dispatch('logout');
+  await router.push("/");
+}
 </script>
 
 <template>
@@ -28,7 +35,7 @@ const store = useStore();
             <router-link class="nav-link mx-2 text-uppercase" to="/user/info">{{ store.state.user.email }}</router-link>
           </li>
           <li class="nav-item">
-            <a class="nav-link mx-2 text-uppercase" @click="store.dispatch('logout')">Logout</a>
+            <a class="nav-link mx-2 text-uppercase" @click="logout">Logout</a>
           </li>
         </ul>
         <ul v-else class="navbar-nav">
@@ -43,3 +50,9 @@ const store = useStore();
     </div>
   </nav>
 </template>
+
+<style scoped>
+a:hover {
+  cursor: pointer;
+}
+</style>
