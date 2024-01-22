@@ -1,20 +1,21 @@
 <script setup lang="ts">
-import { ref } from "vue";
+import { onMounted, ref } from "vue";
 import { User } from "../../types/User.ts";
 import { signInWithEmailAndPassword } from "firebase/auth";
 import { auth } from '../../firebase';
-import { useRouter } from "vue-router";
+import { useRoute, useRouter } from "vue-router";
 import { useStore } from "vuex";
 import { LoginUserForm } from "../../types/LoginUserForm.ts";
 
 const router = useRouter();
+const route = useRoute();
 const store = useStore();
 
+const passwordSpan = ref<HTMLElement | null>(null);
 const loginUserForm = ref<LoginUserForm>({
   email: '',
   password: '',
 });
-
 
 const loginUser = async (e: Event) => {
   e.preventDefault();
@@ -25,13 +26,24 @@ const loginUser = async (e: Event) => {
           email: userCredential.user.email!,
           uid: userCredential.user.uid,
         }
+
         await store.dispatch('login', { user });
+
+        const previousRoute = route.redirectedFrom;
+        console.log(previousRoute);
+        if (previousRoute) {
+          console.log('redirected from');
+          await router.push(previousRoute);
+          return;
+        }
+
         await router.push('/');
+        return;
       })
       .catch((error) => {
         const errorCode = error.code;
         const errorMessage = error.message;
-        alert({ errorCode, errorMessage });
+        passwordSpan.value!.innerText = `Bledy: ${errorCode}, ${errorMessage}`;
       });
 }
 

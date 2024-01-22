@@ -9,7 +9,7 @@ import * as VueRouter from 'vue-router'
 import RegisterUser from "./components/user/RegisterUser.vue";
 import store from './store.ts'
 import LoginUser from "./components/user/LoginUser.vue";
-import { useStore } from "vuex";
+import { useStore } from 'vuex';
 import AuthError from "./components/AuthError.vue";
 
 const routes = [
@@ -29,7 +29,7 @@ const router = VueRouter.createRouter({
 router.beforeEach((to, _, next) => {
   if (to.meta.requiresAuth) {
     const auth = useStore();
-
+    
     if (auth.state.isAuthenticated) {
       next();
     } else {
